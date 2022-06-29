@@ -32,13 +32,9 @@ jobs:
     - name: Get package version
       id: package_ver
       run: |
-          content=`cat ./package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
+          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
+          cat ./package.json >> $GITHUB_ENV
+           echo 'EOF' >> $GITHUB_ENV
     - name: Create tag
       uses: actions/github-script@v5
       with:
@@ -46,6 +42,6 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/${{fromJson(steps.set_var.outputs.packageJson).version}}',
+              ref: 'refs/tags/${{ fromJson(env.PACKAGE_JSON).version}}',
               sha: context.sha
             })
