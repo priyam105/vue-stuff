@@ -34,3 +34,8 @@ jobs:
       run: |
         JSON=$(cat ./package.json)
         echo "::set-output name=matrix::${JSON//'%'/'%25'}"
+    
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+          script: console.log(${{fromJson(steps.set_var.outputs)}})
