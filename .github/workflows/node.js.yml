@@ -32,5 +32,5 @@ jobs:
     - name: Get package version
       id: package_ver
       run: |
-        JSON=$(cat ./your.json)
+        JSON=$(cat ./package.json)
         echo "::set-output name=matrix::${JSON//'%'/'%25'}"
