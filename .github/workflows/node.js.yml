@@ -33,5 +33,5 @@ jobs:
     - name: Create tag
       uses: actions/github-script@v5
       with:
-        script: console.log(context)
+        script: console.log(process.env.npm_package_version)
             
