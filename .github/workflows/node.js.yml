@@ -34,5 +34,13 @@ jobs:
       run: |
         JSON=$(cat ./package.json)
         echo "::set-output name=matrix::${JSON//'%'/'%25'}"
-    - run: |
-            echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{steps.package_ver.outputs}}',
+              sha: context.sha
+            })
