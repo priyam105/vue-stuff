@@ -30,8 +30,8 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
 
-    - name: Create tag
-      uses: actions/github-script@v5
-      with:
-        script: npm -s run env echo '$npm_package_version'
+    - uses: actions/github-script@v5
+    - name: Create tag     
+      run : |
+        npm -s run env echo '$npm_package_version'
             
